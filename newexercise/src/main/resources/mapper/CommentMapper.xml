@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.one.exercise.pojo.Comment">
+        <id column="comment_id" jdbcType="BIGINT" property="commentId"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="initiator" jdbcType="BIGINT" property="initiator"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="dy_id" jdbcType="BIGINT" property="dyId"/>
+        <result column="is_read" jdbcType="INTEGER" property="isRead"/>
+    </resultMap>
+
+    <resultMap id="CommentListBaseResultMap" type="com.one.exercise.pojo.comment.CommentDTO">
+        <id column="comment_id" jdbcType="BIGINT" property="commentId"/>
+        <result column="comment_message" jdbcType="VARCHAR" property="message"/>
+        <result column="initiator" jdbcType="BIGINT" property="initiator"/>
+        <result column="comment_time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="dy_id" jdbcType="BIGINT" property="dyId"/>
+        <!-- 额外-学生信息-start -->
+        <result column="nick_name" jdbcType="VARCHAR" property="nickname" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <!-- 额外-学生信息-end -->
+
+        <collection property="writeBackList" ofType="com.one.exercise.pojo.writeback.WriteBackDTO" column="comment_id">
+            <id column="back_id" jdbcType="BIGINT" property="backId"/>
+            <result column="back_sender" jdbcType="BIGINT" property="backSender"/>
+            <result column="back_receiver" jdbcType="BIGINT" property="backReceiver"/>
+            <result column="back_message" jdbcType="VARCHAR" property="message"/>
+            <result column="back_time" jdbcType="TIMESTAMP" property="time"/>
+
+            <!-- 额外-学生信息-start -->
+            <result column="receiver_nickname" jdbcType="VARCHAR" property="receiverNickname" />
+            <result column="receiver_avatar" jdbcType="VARCHAR" property="receiverAvatar" />
+
+            <result column="sender_nickname" jdbcType="VARCHAR" property="senderNickname" />
+            <result column="sender_avatar" jdbcType="VARCHAR" property="senderAvatar" />
+            <!-- 额外-学生信息-end -->
+        </collection>
+    </resultMap>
+
+
+    <select id="getListByDyId" resultMap="CommentListBaseResultMap">
+        SELECT
+            c.comment_id, c.message as comment_message, c.initiator, c.time as comment_time, c.dy_id, c.nick_name, c.avatar,
+            wb.back_id, wb.back_sender, wb.back_receiver, wb.message as back_message, wb.time as back_time,
+            wb.sender_nickname, wb.sender_avatar, wb.receiver_nickname, wb.receiver_avatar
+        FROM
+        (
+            SELECT * FROM `comment` , student
+            WHERE dy_id = #{dyId} AND student_id = initiator
+            LIMIT 0, 1000
+        ) c
+        LEFT JOIN
+        (
+            SELECT * FROM
+            (
+                SELECT wb.*,s.nick_name sender_nickname, s.avatar sender_avatar  FROM write_back wb, student s
+                WHERE wb.back_sender = s.student_id
+            ) as one,
+            (
+                SELECT  wb.back_id as back_id_2, s.nick_name as receiver_nickname, s.avatar as receiver_avatar FROM write_back wb, student s
+                WHERE wb.back_receiver = s.student_id
+            ) as two
+            WHERE one.back_id = two.back_id_2
+        ) wb
+        ON c.comment_id = wb.comment_id
+        ORDER BY c.comment_id desc, back_id desc
+    </select>
+
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.one.exercise.pojo.Student">
+    <id column="student_id" jdbcType="INTEGER" property="studentId" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="validity" jdbcType="INTEGER" property="validity" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+  </resultMap>
+</mapper>

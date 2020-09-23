@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.TeacherMapper">
+    <resultMap id="BaseResultMap" type="com.one.exercise.pojo.Teacher">
+        <id column="teacher_id" jdbcType="INTEGER" property="teacherId"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="gender" jdbcType="INTEGER" property="gender"/>
+        <result column="course" jdbcType="VARCHAR" property="course"/>
+        <result column="follow" jdbcType="INTEGER" property="follow"/>
+        <result column="qualification" jdbcType="INTEGER" property="qualification"/>
+        <result column="i_face" jdbcType="VARCHAR" property="iFace"/>
+        <result column="is_admin" jdbcType="INTEGER" property="isAdmin"/>
+        <result column="validity" jdbcType="INTEGER" property="validity"/>
+    </resultMap>
+
+    <!--获取教师列表：分页筛选,关注数量多的会靠前显示-->
+    <select id="selectSubjectTeacherList" resultMap="BaseResultMap">
+        SELECT * FROM teacher as t
+        WHERE teacher_id in (SELECT teacher_id FROM teacher_subject WHERE subject_id= #{subjectId})
+        ORDER BY (SELECT COUNT(*) FROM student_relation_teacher as srt WHERE srt.teacher_id=t.teacher_id) DESC
+        LIMIT #{startIndex},#{pageSize}
+    </select>
+    <!--获得指定学科的老师数量-->
+    <select id="countSubjectTeacherList" resultType="int">
+        SELECT count(*) FROM teacher_subject WHERE subject_id= #{subjectId}
+    </select>
+
+    <!--老师的关注数量加减-->
+    <update id="updateTeacherFollow">
+        UPDATE teacher SET follow = follow + #{quantity} WHERE teacher_id=#{teacherId}
+    </update>
+
+
+</mapper>

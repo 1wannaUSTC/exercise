@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.AdmireMapper">
+    <resultMap id="BaseResultMap" type="com.one.exercise.pojo.Admire">
+        <id column="admire_id" jdbcType="BIGINT" property="admireId"/>
+        <result column="dy_id" jdbcType="BIGINT" property="dyId" />
+        <result column="admire_liker" jdbcType="BIGINT" property="admireLiker"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="is_read" jdbcType="INTEGER" property="isRead"/>
+    </resultMap>
+    <select id="selectLikeState" resultType="java.lang.Long">
+        SELECT dy_id FROM `exercise`.`admire` WHERE admire_liker = 18
+    </select>
+</mapper>

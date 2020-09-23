@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.DynamicMessageMapper">
+    <resultMap id="BaseResultMap" type="com.one.exercise.pojo.DynamicMessage">
+        <id column="dy_id" jdbcType="BIGINT" property="dyId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="initiator" jdbcType="BIGINT" property="initiator"/>
+        <result column="like" jdbcType="BIGINT" property="like"/>
+        <result column="comment" jdbcType="BIGINT" property="comment"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="validity" jdbcType="INTEGER" property="validity"/>
+
+        <collection property="pictures" ofType="com.one.exercise.pojo.DynamicPicture" column="dy_id">
+            <id column="dynamic_picture_id" jdbcType="BIGINT" property="dynamicPictureId"/>
+            <result column="dy_id" jdbcType="BIGINT" property="dyId"/>
+            <result column="image_path" jdbcType="VARCHAR" property="imagePath"/>
+        </collection>
+    </resultMap>
+    <select id="selectNewest" resultMap="BaseResultMap">
+        SELECT *
+        FROM (SELECT * FROM `exercise`.`dynamic_message` WHERE validity = 1  ORDER BY dy_id DESC  LIMIT #{startIndex},#{pageSize}) dm
+        LEFT OUTER JOIN `exercise`.`dynamic_picture` dp
+        ON dm.dy_id = dp.dy_id
+        ORDER BY dm.dy_id DESC, dynamic_picture_id ASC
+    </select>
+
+    <select id="selectHot" resultMap="BaseResultMap">
+        SELECT *
+        FROM (SELECT * FROM `exercise`.`dynamic_message` WHERE validity =1 ORDER BY (`like` + `comment`) DESC LIMIT #{startIndex},#{pageSize}) dm
+        LEFT OUTER JOIN `exercise`.`dynamic_picture` dp
+        ON dm.dy_id = dp.dy_id
+        ORDER BY (`like` + `comment`) DESC, `like` DESC, dynamic_picture_id ASC
+    </select>
+
+    <select id="queryMe" resultMap="BaseResultMap">
+        SELECT *
+        FROM (SELECT * FROM `exercise`.`dynamic_message` WHERE validity = 1 AND initiator = #{studentId} LIMIT #{startIndex},#{pageSize}) dm
+        LEFT OUTER JOIN `exercise`.`dynamic_picture` dp
+        ON dm.dy_id = dp.dy_id
+        ORDER BY dm.dy_id DESC, dynamic_picture_id ASC
+    </select>
+
+    <update id="updateLikeNumber">
+        UPDATE `exercise`.`dynamic_message` SET `like` = `like` + #{i} WHERE `dy_id` = #{dyId}
+    </update>
+
+    <update id="updateCommentNumber">
+        UPDATE `exercise`.`dynamic_message` SET `comment` = `comment`+#{i} WHERE `dy_id` = #{dyId}
+    </update>
+
+</mapper>

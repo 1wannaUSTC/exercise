@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.QuestionCommentBackMapper">
+  <resultMap id="BaseResultMap" type="com.one.exercise.pojo.QuestionCommentBack">
+    <id column="back_id" jdbcType="BIGINT" property="backId" />
+    <result column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="back_send" jdbcType="BIGINT" property="backSend" />
+    <result column="back_receiver" jdbcType="BIGINT" property="backReceiver" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="this_time" jdbcType="TIMESTAMP" property="thisTime" />
+    <result column="is_read" jdbcType="INTEGER" property="isRead" />
+    <result column="send_face" jdbcType="VARCHAR" property="sendFace" />
+    <result column="send_nick_name" jdbcType="VARCHAR" property="sendNickName" />
+    <result column="receiver_face" jdbcType="VARCHAR" property="receiverFace" />
+    <result column="receiver_nick_name" jdbcType="VARCHAR" property="receiverNickName" />
+  </resultMap>
+</mapper>

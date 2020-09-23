@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.CodeMapMapper">
+  <resultMap id="BaseResultMap" type="com.one.exercise.pojo.CodeMap">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="code_map_id" jdbcType="INTEGER" property="codeMapId" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+  </resultMap>
+</mapper>

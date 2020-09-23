@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.ExerciseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.one.exercise.pojo.ExerciseInfo">
+    <id column="info_id" jdbcType="BIGINT" property="infoId" />
+    <result column="student_id" jdbcType="BIGINT" property="studentId" />
+    <result column="difficulty" jdbcType="INTEGER" property="difficulty" />
+    <result column="general" jdbcType="INTEGER" property="general" />
+    <result column="easy" jdbcType="INTEGER" property="easy" />
+    <result column="correct" jdbcType="INTEGER" property="correct" />
+    <result column="error" jdbcType="INTEGER" property="error" />
+  </resultMap>
+</mapper>

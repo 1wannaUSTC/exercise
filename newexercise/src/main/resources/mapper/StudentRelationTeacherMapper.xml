@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.StudentRelationTeacherMapper">
+    <resultMap id="BaseResultMap" type="com.one.exercise.pojo.StudentRelationTeacher">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="teacher_id" jdbcType="BIGINT" property="teacherId"/>
+        <result column="student_id" jdbcType="BIGINT" property="studentId"/>
+        <result column="relation_time" jdbcType="TIMESTAMP" property="relationTime"/>
+    </resultMap>
+    <resultMap id="BaseResultMapStudent" type="com.one.exercise.pojo.Student">
+        <id column="student_id" jdbcType="INTEGER" property="studentId"/>
+        <result column="open_id" jdbcType="VARCHAR" property="openId"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="gender" jdbcType="INTEGER" property="gender"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="major" jdbcType="VARCHAR" property="major"/>
+        <result column="validity" jdbcType="INTEGER" property="validity"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+    </resultMap>
+
+    <!-- 通过教师id获取，关注教师的所有学生列表 -->
+    <select id="selectStudentByTeacherId" resultMap="BaseResultMapStudent">
+      SELECT * FROM student WHERE student_id in
+      (
+        SELECT student_id FROM student_relation_teacher
+        WHERE teacher_id=#{teacherId}
+      )
+      ORDER BY student_id DESC LIMIT #{startIndex}, #{pageSize}
+    </select>
+    <!-- 获取id列表 -->
+    <select id="selectStudentIdByTeacherId" resultType="long">
+        SELECT student_id FROM `exercise`.`student_relation_teacher` WHERE teacher_id=#{teacherId}
+    </select>
+
+    <!-- 通过教师id获取，关注教师的所有学生列表 -->
+    <select id="countStudentByTeacherId" parameterType="long" resultType="int">
+      SELECT count(*) FROM student_relation_teacher WHERE teacher_id=#{teacherId}
+    </select>
+
+    <!-- 创建一组关联，学生关注老师 -->
+    <insert id="insertRelation">
+        INSERT ignore INTO student_relation_teacher ( teacher_id, student_id ) VALUES( #{teacherId},#{studentId} )
+    </insert>
+    <!-- 取消一组关联 -->
+    <delete id="cancelRelationTeacher">
+        DELETE FROM student_relation_teacher WHERE teacher_id=#{teacherId} AND student_id=#{studentId}
+    </delete>
+
+</mapper>

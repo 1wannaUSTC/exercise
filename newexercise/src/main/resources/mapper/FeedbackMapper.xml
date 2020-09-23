@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.FeedbackMapper">
+    <resultMap id="BaseResultMap" type="com.one.exercise.pojo.Feedback">
+        <id column="feedback_id" jdbcType="BIGINT" property="feedbackId"/>
+        <result column="teacher_id" jdbcType="BIGINT" property="teacherId"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="relation" jdbcType="VARCHAR" property="relation"/>
+        <result column="validity" jdbcType="INTEGER" property="validity"/>
+
+        <collection property="feedbackPictures" ofType="com.one.exercise.pojo.FeedbackPicture" column="feedback_id">
+            <id column="id" jdbcType="BIGINT" property="id"/>
+            <result column="feedback_id" jdbcType="BIGINT" property="feedbackId"/>
+            <result column="picture_path" jdbcType="VARCHAR" property="picturePath"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectFeedbackById" resultMap="BaseResultMap" parameterType="long">
+        select * from feedback as f, feedback_picture as fp
+        where f.feedback_id=fp.feedback_id
+        and f.feedback_id=#{feedbackId}
+    </select>
+
+</mapper>

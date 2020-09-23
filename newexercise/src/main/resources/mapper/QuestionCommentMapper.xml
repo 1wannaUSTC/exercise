@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.QuestionCommentMapper">
+    <resultMap id="BaseResultMap" type="com.one.exercise.pojo.QuestionComment">
+        <id column="comment_id" jdbcType="BIGINT" property="commentId"/>
+        <result column="question_id" jdbcType="BIGINT" property="questionId"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="initiator" jdbcType="BIGINT" property="initiator"/>
+        <result column="this_time" jdbcType="TIMESTAMP" property="thisTime"/>
+        <result column="face" jdbcType="VARCHAR" property="face"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+    </resultMap>
+
+    <resultMap id="CollectionResultMap" type="com.one.exercise.pojo.questioncomment.QuestionCommentQuery">
+        <id column="cid" jdbcType="BIGINT" property="commentId"/>
+        <result column="question_id" jdbcType="BIGINT" property="questionId"/>
+        <result column="comment_message" jdbcType="VARCHAR" property="message"/>
+        <result column="initiator" jdbcType="BIGINT" property="initiator"/>
+        <result column="comment_time" jdbcType="TIMESTAMP" property="thisTime"/>
+        <result column="face" jdbcType="VARCHAR" property="face"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <collection property="backs" ofType="com.one.exercise.pojo.questioncomment.QuestionCommentBackQuery"
+                    column="comment_id">
+            <id column="back_id" jdbcType="BIGINT" property="backId"/>
+            <result column="comment_id" jdbcType="BIGINT" property="commentId"/>
+            <result column="back_send" jdbcType="BIGINT" property="backSend"/>
+            <result column="back_receiver" jdbcType="BIGINT" property="backReceiver"/>
+            <result column="message" jdbcType="VARCHAR" property="message"/>
+            <result column="this_time" jdbcType="TIMESTAMP" property="thisTime"/>
+            <result column="is_read" jdbcType="INTEGER" property="isRead"/>
+            <result column="send_face" jdbcType="VARCHAR" property="sendFace"/>
+            <result column="send_nick_name" jdbcType="VARCHAR" property="sendNickName"/>
+            <result column="receiver_face" jdbcType="VARCHAR" property="receiverFace"/>
+            <result column="receiver_nick_name" jdbcType="VARCHAR" property="receiverNickName"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryCommentList" resultMap="CollectionResultMap" parameterType="long">
+        SELECT qc.comment_id as cid, qc.question_id, qc.message as comment_message,
+            qc.initiator, qc.this_time as comment_time, qc.face, qc.nick_name, qcb.*
+        FROM `question_comment` qc
+        LEFT JOIN `question_comment_back` qcb
+        ON qc.comment_id = qcb.comment_id
+        WHERE qc.question_id = #{questionId}
+        ORDER BY qc.comment_id DESC, back_id DESC
+    </select>
+
+</mapper>

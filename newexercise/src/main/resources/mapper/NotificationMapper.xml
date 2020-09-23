@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.NotificationMapper">
+  <resultMap id="BaseResultMap" type="com.one.exercise.pojo.notification.Notification">
+    <id column="message_id" jdbcType="BIGINT" property="messageId" />
+    <result column="sender" jdbcType="INTEGER" property="sender" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="reads" jdbcType="INTEGER" property="reads" />
+    <result column="validity" jdbcType="INTEGER" property="validity" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+</mapper>

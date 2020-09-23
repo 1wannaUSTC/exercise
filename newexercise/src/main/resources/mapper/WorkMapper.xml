@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.WorkMapper">
+  <resultMap id="BaseResultMap" type="com.one.exercise.pojo.Work">
+    <id column="work_id" jdbcType="INTEGER" property="workId" />
+    <result column="work_name" jdbcType="VARCHAR" property="workName" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+    <result column="result" jdbcType="INTEGER" property="result" />
+    <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="difficulty" jdbcType="VARCHAR" property="difficulty" />
+  </resultMap>
+
+  <select id="queryWorkList" resultMap="BaseResultMap" >
+    SELECT * FROM `exercise`.`work` WHERE 1 = 1
+    <if test="work.subjectId != null">
+      AND subject_id=#{work.subjectId}
+    </if>
+    <if test="work.difficulty != null &amp;&amp; work.difficulty != ''">
+      AND difficulty=#{work.difficulty}
+    </if>
+    <if test="work.teacherId != null">
+      AND teacher_id=#{work.teacher_id}
+    </if>
+    <if test="work.result != null">
+      AND result BETWEEN #{work.teacher_id-50}  AND #{work.teacher_id}
+    </if>
+    LIMIT #{startIndex},#{pageSize}
+  </select>
+
+</mapper>

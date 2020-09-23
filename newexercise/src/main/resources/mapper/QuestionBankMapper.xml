@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.QuestionBankMapper">
+  <resultMap id="BaseResultMap" type="com.one.exercise.pojo.QuestionBank">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="question_id" jdbcType="INTEGER" property="questionId" />
+    <result column="teacher_id" jdbcType="INTEGER" property="teacherId" />
+    <result column="is_public" jdbcType="INTEGER" property="isPublic" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="question" jdbcType="VARCHAR" property="question" />
+    <result column="option" jdbcType="VARCHAR" property="option" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="uuid_short" jdbcType="VARCHAR" property="uuidShort" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="difficulty" jdbcType="VARCHAR" property="difficulty" />
+    <result column="validity" jdbcType="INTEGER" property="validity" />
+  </resultMap>
+</mapper>

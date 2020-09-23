@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.one.exercise.mapper.StudentCollectWorkMapper">
+    <resultMap id="BaseResultMap" type="com.one.exercise.pojo.StudentCollectWork">
+        <id column="collect_id" jdbcType="BIGINT" property="collectId"/>
+        <result column="work_id" jdbcType="BIGINT" property="workId"/>
+        <result column="student_id" jdbcType="BIGINT" property="studentId"/>
+    </resultMap>
+
+    <delete id="cancelCollectWork">
+        DELETE FROM `exercise`.`student_collect_work` WHERE `work_id` = #{workId}  AND  `student_id` =#{studentId}
+    </delete>
+
+</mapper>
